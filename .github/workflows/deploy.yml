@@ -10,17 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Get latest code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            docker stop nginx-final-pro || true
-            docker rm nginx-final-pro || true
-            docker build -t final-pro .
-            docker run -d -p 80:80 --name nginx-final-pro final-pro
+      # 2. Stop old container (safe)
+      - name: Stop old container
+        run: |
+          docker stop nginx-final-pro || true
+          docker rm nginx-final-pro || true
+
+      # 3. Remove old image (safe)
+      - name: Remove old image
+        run: |
+          docker rmi final-pro || true
+
+      # 4. Build new image
+      - name: Build Docker image
+        run: |
+          docker build -t final-pro .
+
+      # 5. Run new container
+      - name: Run container
+        run: |
+          docker run -d \
+            --name nginx-final-pro \
+            -p 80:80 \
+            --restart unless-stopped \
+            final-pro
