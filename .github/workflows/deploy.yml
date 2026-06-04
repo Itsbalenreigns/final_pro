@@ -1,0 +1,36 @@
+name: Auto Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stop old container
+        shell: powershell
+        continue-on-error: true
+        run: |
+          docker stop nginx-final-pro
+          docker rm nginx-final-pro
+
+      - name: Remove old image
+        shell: powershell
+        continue-on-error: true
+        run: |
+          docker rmi final-pro
+
+      - name: Build image
+        shell: powershell
+        run: |
+          docker build -t final-pro .
+
+      - name: Run container
+        shell: powershell
+        run: |
+          docker run -d --name nginx-final-pro -p 80:80 final-pro
