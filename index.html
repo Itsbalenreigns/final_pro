@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group 10 | Final Project</title>
+<title>GROUP 10 | DevOps Final Project</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -12,17 +12,21 @@
 
 </head>
 <body>
-
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
 <header>
     <div class="container">
-        <h2 class="logo">Group 10</h2>
+        <h2 class="logo">ROMAM BALEN</h2>
 
         <nav>
             <ul>
-                <li><a href="#home">Menghong</a></li>
-                <li><a href="#about">Meng</a></li>
-                <li><a href="#skills">Balen</a></li>
-                <li><a href="#projects">Seyha</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -151,6 +155,13 @@
 
 </footer>
 
+<script>
+    const nav = document.querySelector("nav ul");
+    const logo = document.querySelector(".logo");
 
+    logo.addEventListener("click", () => {
+        nav.classList.toggle("active");
+    });
+</script>
 </body>
 </html>
